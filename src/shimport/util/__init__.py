@@ -26,6 +26,3 @@ def get_namespace(name):
 
     ModuleNamespace.name = name
     return ModuleNamespace()
-
-
-from .oop import *  # noqa

@@ -1,4 +1,4 @@
-""" {{pkg}}.util.types
+""" shimport.util.types
 
 This module collects common imports and annotation-types, i.e.
 various optional/composite types used in type-hints, underneath
@@ -6,11 +6,17 @@ one convenient namespace.
 """
 
 import typing
-
 from types import *  # noqa
 from typing import *  # noqa
 
+def new_in_class(name: str, kls: typing.Type):
+    """
 
+    :param name: str:
+    :param kls: typing.Type:
+    """
+    return name in dir(kls) and not any([name in dir(base) for base in kls.__bases__])
+    
 def is_subclass(x, y, strict=True):
     """ """
     if isinstance(x, (typing.Type)) and issubclass(x, y):
@@ -29,11 +35,6 @@ BoolMaybe = typing.Optional[bool]
 StringMaybe = typing.Optional[str]
 CallableMaybe = typing.Optional[typing.Callable]
 DictMaybe = typing.Optional[typing.Dict]
-TagDict = typing.Dict[str, str]
-
 
 Namespace = typing.Dict[str, typing.Any]
 CallableNamespace = typing.Dict[str, typing.Callable]
-
-# i.e. `obj,created = model.objects.get_or_create()`
-GetOrCreateResult = typing.Tuple[object, bool]

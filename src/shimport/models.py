@@ -18,7 +18,7 @@ import_spec = collections.namedtuple(
 )
 
 
-class ModulesWrapper():
+class ModulesWrapper:
     """ """
 
     class Error(ImportError):
@@ -36,8 +36,7 @@ class ModulesWrapper():
         logger=None,
         **kwargs,
     ):
-        """
-        """
+        """ """
         assert name
         self.name = name
         self.import_mods = import_mods
@@ -51,8 +50,7 @@ class ModulesWrapper():
             raise TypeError(f"extra kwargs: {kwargs}")
 
     def map_ns(self, fxn):
-        """
-        """
+        """ """
         return FilterResult(itertools.starmap(fxn, self.namespace.items()))
         # out = []
         # for k,v in self.namespace.items():
@@ -160,8 +158,7 @@ class ModulesWrapper():
         include_main: str = True,
         exclude_private=True,
     ):
-        """
-        """
+        """ """
         p = self.parent_folder / "**/*.py"
         result = glob.glob(str(p))
         result = [Path(x) for x in result]
@@ -177,8 +174,7 @@ class ModulesWrapper():
             rel = str(rel).replace(os.path.sep, ".")
             dotpath = f"{self.name}.{rel}"
             child = ModulesWrapper(
-                name=dotpath, import_mods=[
-                    dotpath], import_names=[f"{dotpath}.*"]
+                name=dotpath, import_mods=[dotpath], import_names=[f"{dotpath}.*"]
             )
             children.append(child)
         return children
@@ -190,8 +186,7 @@ class ModulesWrapper():
         select: typing.Dict = {},
         **kwargs,
     ):
-        """
-        """
+        """ """
         children = FilterResult(self.get_folder_children(**kwargs))
         if sum([1 for choice in map(bool, [filter, select, prune]) if choice]) == 0:
             return children
@@ -220,8 +215,7 @@ class ModulesWrapper():
         import_statements=[],
         rekey: typing.Callable = None,
     ) -> typing.Dict:
-        """
-        """
+        """ """
         module = self.module
         namespace = {}
         import_statements = import_statements or self.import_side_effects()
@@ -262,8 +256,7 @@ class ModulesWrapper():
         if name_is:
             filter_names = [lambda name: name == name_is] + filter_names
         if exclude_private:
-            filter_names = [
-                lambda name: not name.startswith("_")] + filter_names
+            filter_names = [lambda name: not name.startswith("_")] + filter_names
 
         if exclude_names:
             filter_names = [
@@ -273,16 +266,13 @@ class ModulesWrapper():
         filter_vals = filter_vals
         if types_in:
             filter_vals = [
-                lambda val: any([typing.is_subclass(val, ty)
-                                for ty in types_in])
+                lambda val: any([typing.is_subclass(val, ty) for ty in types_in])
             ] + filter_vals
         if filter_instances:
-            filter_vals = [lambda val: isinstance(
-                val, filter_instances)] + filter_vals
+            filter_vals = [lambda val: isinstance(val, filter_instances)] + filter_vals
         if filter_module_origin:
             filter_vals = [
-                lambda val: filter_module_origin == getattr(
-                    val, "__module__", None)
+                lambda val: filter_module_origin == getattr(val, "__module__", None)
             ] + filter_vals
         return self._apply_filters(
             filter_vals=filter_vals,
@@ -291,8 +281,7 @@ class ModulesWrapper():
         )
 
     def run_filter(self, validator, arg) -> typing.BoolMaybe:
-        """wrapper to honor `filter_failure_raises`
-        """
+        """wrapper to honor `filter_failure_raises`"""
         test = False
         try:
             test = validator(arg)
@@ -302,8 +291,7 @@ class ModulesWrapper():
         return test
 
     def namespace_modified_hook(self, assignment, val) -> typing.NoneType:
-        """
-        """
+        """ """
 
     def do_import_name(self, arg) -> object:
         tmp = self.normalize_import(arg)
@@ -362,8 +350,7 @@ class LazyModule:
         pass
 
     def __init__(self, module_name: str = ""):
-        """
-        """
+        """ """
         assert module_name
         self.module_name = module_name
         self.module = None
@@ -377,8 +364,7 @@ class LazyModule:
                 raise LazyModule.LazyResolutionError(exc)
 
     def __getattr__(self, var_name):
-        """
-        """
+        """ """
         self.resolve()
         return getattr(self.module, var_name)
 

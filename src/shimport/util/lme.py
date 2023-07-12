@@ -1,8 +1,10 @@
 """ {{pkg}}.util.lme
 """
-import sys 
+import sys
 import logging
+
 from shimport import constants
+
 
 def set_global_level(level):
     """https://stackoverflow.com/questions/19617355/dynamically-changing-log-level-without-restarting-the-application
