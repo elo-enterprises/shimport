@@ -14,15 +14,13 @@ NO_COLOR:=\033[0m
 COLOR_GREEN=\033[92m
 
 PYPI_PROJECT_NAME:=shimport
-# PYPI_USER:=elo-e
-# PYPI_TOKEN_CMD:=ssm get /elo/pypi/elo-e
 
 .PHONY: build docs
 
 init:
-	$(call _announce_target, $@)
+	# $(call _announce_target, $@)
 	set -x \
-	pip install build \
+	; pip install build \
 	; pip install --quiet -e .[dev] \
 	; pip install --quiet -e .[testing] \
 	; pip install --quiet -e .[publish]
