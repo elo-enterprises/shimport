@@ -4,9 +4,9 @@ import importlib
 
 from shimport.abcs.attrdict import AttrDict
 
+
 def get_namespace(name):
-    """
-    """
+    """ """
 
     class ModuleNamespace(AttrDict):
         """ """

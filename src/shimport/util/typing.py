@@ -6,8 +6,10 @@ one convenient namespace.
 """
 
 import typing
+
 from types import *  # noqa
 from typing import *  # noqa
+
 
 def new_in_class(name: str, kls: typing.Type):
     """
@@ -16,7 +18,8 @@ def new_in_class(name: str, kls: typing.Type):
     :param kls: typing.Type:
     """
     return name in dir(kls) and not any([name in dir(base) for base in kls.__bases__])
-    
+
+
 def is_subclass(x, y, strict=True):
     """ """
     if isinstance(x, (typing.Type)) and issubclass(x, y):

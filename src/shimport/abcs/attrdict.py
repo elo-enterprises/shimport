@@ -1,7 +1,7 @@
 """ pynchon.abcs.attrdict
 """
 
-from pynchon.util import lme, typing
+from shimport.util import lme, typing
 
 LOGGER = lme.get_logger(__name__)
 
