@@ -2,14 +2,11 @@
 """
 import importlib
 
+from shimport.abcs.attrdict import AttrDict
 
 def get_namespace(name):
-    """FIXME: use FakeModule?
-
-    :param name:
-
     """
-    from shimport.abcs.attrdict import AttrDict
+    """
 
     class ModuleNamespace(AttrDict):
         """ """
