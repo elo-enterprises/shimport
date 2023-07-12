@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  init:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,9 +20,18 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: "3.9"
+  deps:
+    needs: [init]
+    steps:
       - name: Install-Deps
         run: make init
+  lint:
+    needs: [deps]
+    steps:
       - name: Static-Analysis
         run: make static-analysis
+  test:
+    needs: [lint]
+    steps:
       - name: Test with pytest
         run: make utest
