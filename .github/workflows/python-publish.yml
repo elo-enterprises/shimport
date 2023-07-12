@@ -19,5 +19,5 @@ jobs:
       - name: Set Up Python
         uses: actions/setup-python@v3
         with: {python-version: '3.9'}
-      - name: Release package
+      - name: Release Package
         run: make init release
