@@ -219,7 +219,8 @@ class ModulesWrapper(Base):
             rel = str(rel).replace(os.path.sep, ".")
             dotpath = f"{self.name}.{rel}"
             child = ModulesWrapper(
-                name=dotpath, import_mods=[dotpath], import_names=[f"{dotpath}.*"]
+                name=dotpath, import_mods=[
+                    dotpath], import_names=[f"{dotpath}.*"]
             )
             children.append(child)
         return children
@@ -357,7 +358,8 @@ class ModulesWrapper(Base):
         if name_is:
             filter_names = [lambda name: name == name_is] + filter_names
         if exclude_private:
-            filter_names = [lambda name: not name.startswith("_")] + filter_names
+            filter_names = [
+                lambda name: not name.startswith("_")] + filter_names
 
         if exclude_names:
             filter_names = [
@@ -367,13 +369,16 @@ class ModulesWrapper(Base):
         filter_vals = filter_vals
         if types_in:
             filter_vals = [
-                lambda val: any([typing.is_subclass(val, ty) for ty in types_in])
+                lambda val: any([typing.is_subclass(val, ty)
+                                for ty in types_in])
             ] + filter_vals
         if filter_instances:
-            filter_vals = [lambda val: isinstance(val, filter_instances)] + filter_vals
+            filter_vals = [lambda val: isinstance(
+                val, filter_instances)] + filter_vals
         if filter_module_origin:
             filter_vals = [
-                lambda val: filter_module_origin == getattr(val, "__module__", None)
+                lambda val: filter_module_origin == getattr(
+                    val, "__module__", None)
             ] + filter_vals
         return self._apply_filters(
             filter_vals=filter_vals,

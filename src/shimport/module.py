@@ -8,7 +8,7 @@ MODULE_REGISTRY = dict()
 
 
 class ModuleBuilder(models.ModulesWrapper):
-    @typing.validate_arguments
+    # @typing.validate_arguments
     def __init__(
         self,
         name: str = "",
@@ -43,7 +43,8 @@ class ModuleBuilder(models.ModulesWrapper):
 
         """
         models.ModulesWrapper.filter(self, **filter)
-        self.logger.info(f"imported {len(self.namespace)} items to {self.name}")
+        self.logger.info(
+            f"imported {len(self.namespace)} items to {self.name}")
 
 
 def module_builder(
