@@ -1,5 +1,7 @@
 """ shimport.models
 """
+import os
+import glob
 import logging
 import importlib
 import itertools
@@ -16,24 +18,7 @@ import_spec = collections.namedtuple(
 )
 
 
-class Base:
-    @classmethod
-    def classmethod_dispatch(kls, *args):
-        """
-
-        :param kls: param *args:
-        :param *args:
-
-        """
-        from multipledispatch import dispatch
-
-        def dec(fxn):
-            return classmethod(dispatch(type(kls), *args)(fxn))
-
-        return dec
-
-
-class ModulesWrapper(Base):
+class ModulesWrapper():
     """ """
 
     class Error(ImportError):
@@ -52,22 +37,6 @@ class ModulesWrapper(Base):
         **kwargs,
     ):
         """
-
-        :param name: str:  (Default value = '')
-        :param import_mods: typing.List[str]:  (Default value = [])
-        :param import_names: typing.List[str]:  (Default value = [])
-        :param import_subs: typing.List[str]:  (Default value = [])
-        :param import_children: bool:  (Default value = False)
-        :param name: str:  (Default value = '')
-        :param import_mods: typing.List[str]:  (Default value = [])
-        :param import_names: typing.List[str]:  (Default value = [])
-        :param import_subs: typing.List[str]:  (Default value = [])
-        :param import_children: bool:  (Default value = False)
-        :param # lazy: bool:  (Default value = False)
-        :param filter_failure_raises: bool:  (Default value = True)
-        :param logger:  (Default value = None)
-        :param **kwargs:
-
         """
         assert name
         self.name = name
@@ -83,9 +52,6 @@ class ModulesWrapper(Base):
 
     def map_ns(self, fxn):
         """
-
-        :param fxn:
-
         """
         return FilterResult(itertools.starmap(fxn, self.namespace.items()))
         # out = []
@@ -195,15 +161,7 @@ class ModulesWrapper(Base):
         exclude_private=True,
     ):
         """
-
-        :param include_main: str:  (Default value = True)
-        :param exclude_private: Default value = True)
-        :param include_main: str:  (Default value = True)
-
         """
-        import os
-        import glob
-
         p = self.parent_folder / "**/*.py"
         result = glob.glob(str(p))
         result = [Path(x) for x in result]
@@ -230,33 +188,14 @@ class ModulesWrapper(Base):
         prune: typing.Dict = {},
         filter: typing.Dict = {},
         select: typing.Dict = {},
-        # merge_filters=False,
-        # rekey=None,
-        # return_values=None,
         **kwargs,
     ):
         """
-
-        :param prune: typing.Dict:  (Default value = {})
-        :param filter: typing.Dict:  (Default value = {})
-        :param select: typing.Dict:  (Default value = {})
-        :param prune: typing.Dict:  (Default value = {})
-        :param filter: typing.Dict:  (Default value = {})
-        :param select: typing.Dict:  (Default value = {})
-        :param # merge_filters:  (Default value = False)
-        :param # rekey:  (Default value = None)
-        :param # return_values:  (Default value = None)
-        :param **kwargs:
-
         """
-        # self.logger.critical(f"filter_folder: {locals()}")
         children = FilterResult(self.get_folder_children(**kwargs))
         if sum([1 for choice in map(bool, [filter, select, prune]) if choice]) == 0:
             return children
         else:
-            import IPython
-
-            IPython.embed()
             result = []
             if sum([1 for choice in [filter, select, prune] if bool(choice)]) == 1:
                 filter_results = []
@@ -268,29 +207,6 @@ class ModulesWrapper(Base):
                     fxn, kwargs = children.prune, prune
                 children = FilterResult(fxn(**kwargs))
                 return children
-                # import IPython; IPython.embed()
-                # for child in children:
-                #     matches = fxn(**kwargs)
-                #     if prune:
-                #         matches = matches.namespace
-                #     if matches:
-                #         filter_results.append([child, matches])
-                #         result.append(child)
-                # return FilterResult(children)
-                # return FilterResult(children)
-                # if not merge_filters:
-                #     return result
-                # else:
-                # out = {}
-                # for child in children:
-                #     out = {**out, **child.namespace}
-
-                # if rekey is not None:
-                #     return dict([rekey(ch) for ch in out.values()])
-
-        # if return_values:
-        #     # raise Exception([ch.namespace.values() for ch in result])
-        #     result = [child.namespace for child in result]
         return FilterResult(result)
 
     def __items__(self):
@@ -299,25 +215,13 @@ class ModulesWrapper(Base):
 
     def _apply_filters(
         self,
-        # import_names=[], import_statements=[],
         filter_vals=[],
         filter_names=[],
         import_statements=[],
-        # return_values=False,
         rekey: typing.Callable = None,
     ) -> typing.Dict:
         """
-
-        :param # import_names:  (Default value = [])
-        :param import_statements:  (Default value = [])
-        :param filter_vals:  (Default value = [])
-        :param filter_names:  (Default value = [])
-        :param # return_values:  (Default value = False)
-        :param rekey: typing.Callable:  (Default value = None)
-
         """
-        # if kwargs:
-        #     raise ValueError(f'unused kwargs {kwargs}')
         module = self.module
         namespace = {}
         import_statements = import_statements or self.import_side_effects()
@@ -383,16 +287,11 @@ class ModulesWrapper(Base):
         return self._apply_filters(
             filter_vals=filter_vals,
             filter_names=filter_names,
-            # return_values=return_values,
             **kwargs,
         )
 
     def run_filter(self, validator, arg) -> typing.BoolMaybe:
         """wrapper to honor `filter_failure_raises`
-
-        :param validator: param arg:
-        :param arg:
-
         """
         test = False
         try:
@@ -404,16 +303,10 @@ class ModulesWrapper(Base):
 
     def namespace_modified_hook(self, assignment, val) -> typing.NoneType:
         """
-
-        :param assignment: param val:
-        :param val:
-
         """
 
     def do_import_name(self, arg) -> object:
         tmp = self.normalize_import(arg)
-        # import IPython; IPython.embed()
-        # raise Exception(tmp)
         return self
 
     def import_side_effects(
@@ -470,10 +363,6 @@ class LazyModule:
 
     def __init__(self, module_name: str = ""):
         """
-
-        :param module_name: str:  (Default value = '')
-        :param module_name: str:  (Default value = '')
-
         """
         assert module_name
         self.module_name = module_name
@@ -489,9 +378,6 @@ class LazyModule:
 
     def __getattr__(self, var_name):
         """
-
-        :param var_name:
-
         """
         self.resolve()
         return getattr(self.module, var_name)
