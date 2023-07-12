@@ -6,9 +6,11 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Upload Python Package
+name: Publish Python Package
 
 on:
+  push:
+    branches: [ "master" ]
   release:
     types: [published]
 
@@ -20,18 +22,19 @@ jobs:
     uses: ./.github/workflows/python-test.yml
   publish:
     name: publish
-    needs: [tests]  # require tests to pass before deploy runs
     runs-on: ubuntu-latest
+    # require tests to pass before deploy runs
+    needs: [tests]  
     steps:
-    - uses: actions/checkout@v3
-    - name: Set Up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.9'
-    - name: Build package
-      run: make build
-    - name: Publish package
-      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+      - uses: actions/checkout@v3
+      - name: Set Up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+      - name: Build package
+        run: make build
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}

@@ -1,6 +1,6 @@
 # See also: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: Python application
+name: Python Tests
 on:
   push:
     branches: [ "master" ]
@@ -20,12 +20,8 @@ jobs:
       with:
         python-version: "3.9"
     - name: Install-Deps
-      run: |
-        python -m pip install --upgrade pip
-        make init
+      run: make init
     - name: Static-Analysis
-      run: |
-        make static-analysis
+      run: make static-analysis
     - name: Test with pytest
-      run: |
-        make utest
+      run: make utest
