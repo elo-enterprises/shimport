@@ -12,6 +12,10 @@
     <td width=15%><img src=img/icon.png style="width:150px"></td>
     <td>
     Import utilities for python
+    <br/><br/>
+    <a href=https://pypi.python.org/pypi/shimport/><img src="https://img.shields.io/pypi/l/shimport.svg"></a>
+    <a href=https://pypi.python.org/pypi/shimport/><img src="https://badge.fury.io/py/shimport.svg"></a>
+    <a href="https://github.com/elo-enterprises/shimport/actions/workflows/python-test.yml"><img src="https://github.com/elo-enterprises/shimport/actions/workflows/python-test.yml/badge.svg"></a>
     </td>
   </tr>
 </table>
@@ -19,6 +23,7 @@
 {{markdown_toc(__template__, level=2)}}
 
 ---------------------------------------------------------------------------------
+
 ## Overview
 
 Import utilities for python 
@@ -37,19 +42,26 @@ pip install shimport
 
 ## Usage
 
-```
+### Simple lazy modules
 
-# Simple lazy modules
+```
 import shimport 
 pathlib = shimport.lazy('pathlib')
 print(pathlib.Path('.').absolute())
+```
 
-# Filtering module contents
+### Filtering module contents
+
+```
 ....
+```
 
-# Automatically importing submodules
-....
 
+
+### Automatically importing submodules
+
+```
+...
 ```
 
 ---------------------------------------------------------------------------------
