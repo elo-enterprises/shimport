@@ -10,11 +10,6 @@ from shimport.util import typing
 class FilterResult(typing.List[typing.Any]):
     """ """
 
-    def __str__(self):
-        return f"<{self.__class__.__name__} ({len(self)} items)>"
-
-    __repr__ = __str__
-
     def map(self, fxn, logger: object = None):
         """ """
         return FilterResult(list(map(fxn, self)))
@@ -32,3 +27,8 @@ class FilterResult(typing.List[typing.Any]):
     def filter(self, **kwargs):
         """ """
         return FilterResult([x.filter(**kwargs) for x in self])
+
+    def __str__(self):
+        return f"<{self.__class__.__name__} ({len(self)} items)>"
+
+    __repr__ = __str__

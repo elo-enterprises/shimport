@@ -25,14 +25,6 @@ class ModulesWrapper:
     class Error(ImportError):
         """ """
 
-    def items(self) -> typing.ItemsView[str, typing.Any]:
-        return self.namespace.items()
-
-    def __str__(self) -> str:
-        return f"<{self.__class__.__name__}[{self.name}]>"
-
-    __repr__ = __str__
-
     def __init__(
         self,
         name: str = "",
@@ -57,6 +49,9 @@ class ModulesWrapper:
         self.filter_failure_raises = filter_failure_raises
         if kwargs:
             raise TypeError(f"extra kwargs: {kwargs}")
+
+    def items(self) -> typing.ItemsView[str, typing.Any]:
+        return self.namespace.items()
 
     def map_ns(self, fxn) -> FilterResult:
         """ """
@@ -344,6 +339,11 @@ class ModulesWrapper:
 
         import_statements = list(set(import_statements))
         return import_statements
+
+    def __str__(self) -> str:
+        return f"<{self.__class__.__name__}[{self.name}]>"
+
+    __repr__ = __str__
 
 
 class LazyModule:
