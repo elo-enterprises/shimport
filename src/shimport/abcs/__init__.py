@@ -21,7 +21,6 @@ class FilterResult(typing.List[typing.Any]):
     def prune(self, **kwargs):
         """ """
         result = FilterResult(filter(None, [x.prune(**kwargs) for x in self]))
-        raise Exception(result)
         return result
 
     def filter(self, **kwargs):
