@@ -16,6 +16,7 @@ from .util import get_namespace
 import_spec = collections.namedtuple(
     "importSpec", "assignment var star package relative"
 )
+# from typing import ItemsView
 
 
 class ModulesWrapper:
@@ -23,6 +24,14 @@ class ModulesWrapper:
 
     class Error(ImportError):
         """ """
+
+    def items(self) -> typing.ItemsView[str, typing.Any]:
+        return self.namespace.items()
+
+    def __str__(self) -> str:
+        return f"<{self.__class__.__name__}[{self.name}]>"
+
+    __repr__ = __str__
 
     def __init__(
         self,
@@ -49,13 +58,12 @@ class ModulesWrapper:
         if kwargs:
             raise TypeError(f"extra kwargs: {kwargs}")
 
-    def map_ns(self, fxn):
+    def map_ns(self, fxn) -> FilterResult:
         """ """
         return FilterResult(itertools.starmap(fxn, self.namespace.items()))
-        # out = []
-        # for k,v in self.namespace.items():
-        #     out.append(fxn(k,v))
-        # return out
+
+    def map(self, *args, **kwargs):
+        return self.map_ns(*args, **kwargs)
 
     def normalize_import(self, name):
         """
@@ -271,6 +279,9 @@ class ModulesWrapper:
         if filter_instances:
             filter_vals = [lambda val: isinstance(val, filter_instances)] + filter_vals
         if filter_module_origin:
+            filter_module_origin = (
+                self.name if filter_module_origin is True else filter_module_origin
+            )
             filter_vals = [
                 lambda val: filter_module_origin == getattr(val, "__module__", None)
             ] + filter_vals
@@ -333,11 +344,6 @@ class ModulesWrapper:
 
         import_statements = list(set(import_statements))
         return import_statements
-
-    def __str__(self):
-        return f"<{self.__class__.__name__}[{self.name}]>"
-
-    __repr__ = __str__
 
 
 class LazyModule:
