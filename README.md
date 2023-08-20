@@ -59,7 +59,16 @@ print(pathlib.Path('.').absolute())
 ### Filtering module contents
 
 ```
-....
+import typing
+import shimport 
+wrapper = shimport.wrapper("os.path")
+namespace = wrapper.prune(
+        exclude_private=True,
+        filter_module_origin=True,
+        filter_instances=typing.FunctionType,
+    )
+
+namespace.map(lambda k, v: print([k,v]))
 ```
 
 
