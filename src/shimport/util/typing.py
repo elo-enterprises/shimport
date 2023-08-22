@@ -6,8 +6,10 @@ one convenient namespace.
 """
 
 import typing
+
 from types import *  # noqa
 from typing import *  # noqa
+
 
 def new_in_class(name: str, kls: typing.Type):
     """

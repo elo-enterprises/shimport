@@ -142,7 +142,7 @@ class ModulesWrapper:
             setattr(self.module, assignment, self.namespace[assignment])
 
     def prune(self, **filters):
-        """ 
+        """
         Like `filter`, except modifies this wrapper in-place.
         """
         # self.logger.critical(f"prune: {filters}")
@@ -218,8 +218,7 @@ class ModulesWrapper:
         import_statements=[],
         rekey: typing.Callable = None,
     ) -> typing.Dict:
-        """ 
-        """
+        """ """
         module = self.module
         namespace = {}
         import_statements = import_statements or self.import_side_effects()
@@ -252,8 +251,8 @@ class ModulesWrapper:
         filter_vals: typing.List[typing.Callable] = [],
         types_in: typing.List[type(type)] = [],
         filter_module_origin: str = "",
-        name_predicate:typing.Callable=None,
-        val_predicate:typing.Callable=None,
+        name_predicate: typing.Callable = None,
+        val_predicate: typing.Callable = None,
         only_functions: bool = False,
         only_data: bool = False,
         only_classes: bool = False,
@@ -261,7 +260,7 @@ class ModulesWrapper:
         exclude_names: typing.List[str] = [],
         **kwargs,
     ) -> typing.Dict:
-        """ 
+        """
         Constructs
         """
         if name_is:
@@ -282,7 +281,7 @@ class ModulesWrapper:
         if only_functions:
             filter_vals = [
                 lambda val: all([callable(val), not inspect.isclass(val)])
-                ] + filter_vals
+            ] + filter_vals
         if only_classes:
             filter_vals = [inspect.isclass] + filter_vals
         if only_data:
@@ -291,16 +290,19 @@ class ModulesWrapper:
                     [
                         # no instances, classes, or function
                         # hasattr(val, "__class__"),
-                        type(val).__name__ in ['module',],
+                        type(val).__name__
+                        in [
+                            "module",
+                        ],
                         inspect.isclass(val),
                         callable(val),
                     ]
                 )
             ] + filter_vals
         if name_predicate:
-            filter_names = [name_predicate]+filter_names
+            filter_names = [name_predicate] + filter_names
         if val_predicate:
-            filter_vals= [val_predicate]+filter_vals
+            filter_vals = [val_predicate] + filter_vals
         if filter_instances:
             filter_vals = [lambda val: isinstance(val, filter_instances)] + filter_vals
         if filter_module_origin:
@@ -338,8 +340,7 @@ class ModulesWrapper:
     def import_side_effects(
         self,
     ) -> typing.List[str]:
-        """
-        """
+        """ """
         import_statements = []
         for name in self.import_mods:
             spec = self.normalize_import(name)
