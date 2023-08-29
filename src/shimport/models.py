@@ -9,10 +9,12 @@ import itertools
 import collections
 from pathlib import Path
 
-from shimport.util import typing
+from shimport.util import lme, typing
 
 from .abcs import FilterResult
 from .util import get_namespace
+
+LOGGER = lme.get_logger(__name__)
 
 import_spec = collections.namedtuple(
     "importSpec", "assignment var star package relative"
@@ -341,10 +343,13 @@ class ModulesWrapper:
         self,
     ) -> typing.List[str]:
         """ """
+        import pathlib
+
         import_statements = []
         for name in self.import_mods:
             spec = self.normalize_import(name)
             assignment = spec.assignment or spec.var
+            LOGGER.critical(f"importing {spec.package}")
             submod = importlib.import_module(spec.package)
             self.namespace[assignment] = submod
             self.namespace_modified_hook(assignment, submod)
@@ -356,7 +361,7 @@ class ModulesWrapper:
         if self.import_children:
             import_pattern = (
                 self.import_children
-                if isinstance(self.import_children, (str,))
+                if isinstance(self.import_children, (str, pathlib.Path))
                 else "*.py"
             )
             mod_file = self.module.__file__
@@ -371,7 +376,6 @@ class ModulesWrapper:
 
         for name in self.import_subs:
             import_statements.append(self.normalize_import(f".{name}.*"))
-
         import_statements = list(set(import_statements))
         return import_statements
 
