@@ -29,7 +29,7 @@ Import utilities for python
 
 See [pypi](https://pypi.org/project/shimport/) for available releases.
 
-```
+```bash
 pip install shimport
 ```
 
@@ -39,7 +39,7 @@ pip install shimport
 
 ### Simple lazy modules
 
-```python
+```pycon
 >>> import shimport 
 >>> pathlib = shimport.lazy('pathlib')
 >>> print(pathlib.Path('.').absolute)
@@ -55,7 +55,7 @@ Suppose you want to retrieve just the function-definitions from a module namespa
 
 Using `shimport.wrapper` let's you slice and dice:
 
-```python
+```pycon
 >>> import shimport
 >>> wrapper = shimport.wrapper("os.path")
 >>> wrapper = wrapper.prune(only_functions=True)
@@ -70,7 +70,7 @@ Some use-cases for `shimport` involve scenarios that aren't great with declarati
 
 So, there's good support for [chaining (aka fluent)](https://en.wikipedia.org/wiki/Fluent_interface) programming style as you can see below.  (Note that indention here follows fluent-style that shed/black should support)
 
-```python
+```pycon
 >>> import shimport 
 >>> (
 ...   shimport
@@ -83,7 +83,7 @@ dict_keys(['sep'])
 >>>
 ```
 
-```python
+```pycon
 >>> import typing, shimport
 >>> (
 ...   shimport
@@ -101,7 +101,7 @@ dict_keys(['sep'])
 
 Grab only the classes from the given namespace:
 
-```python
+```pycon
 >>> import shimport 
 >>> namespace=shimport.wrapper('pathlib').filter(only_classes=True)
 >>> assert 'Path' in namespace
@@ -115,7 +115,7 @@ Grab only the classes from the given namespace:
 
 Grab only the classes from the given namespace:
 
-```python
+```pycon
 >>> import shimport 
 >>> namespace = shimport.wrapper('os.path').filter(only_data=True)
 >>> assert 'sep' in namespace
@@ -124,7 +124,7 @@ Grab only the classes from the given namespace:
 
 ### Automatically importing submodules
 
-```python
+```pycon
 ```
 
 ---------------------------------------------------------------------------------
