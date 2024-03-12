@@ -1,5 +1,6 @@
 """ shimport.models
 """
+
 import os
 import glob
 import inspect
@@ -65,9 +66,7 @@ class ModulesWrapper:
 
     def normalize_import(self, name):
         """
-
         :param name:
-
         """
         assignment = None
         if " as " in name:
@@ -99,9 +98,7 @@ class ModulesWrapper:
 
     def do_import(self, package):
         """
-
         :param package:
-
         """
         return importlib.import_module(package)
 
@@ -153,6 +150,7 @@ class ModulesWrapper:
         return self
 
     def sorted(self, key=None):
+        """ """
         tmp = self.namespace.items()
         tmp = sorted(tmp, key=key)
         self.namespace = collections.OrderedDict(tmp)
@@ -225,7 +223,11 @@ class ModulesWrapper:
         namespace = {}
         import_statements = import_statements or self.import_side_effects()
         for st in import_statements:
-            submod = self.do_import(st.package)
+            try:
+                submod = self.do_import(st.package)
+            except ModuleNotFoundError:
+                LOGGER.debug(f"Failed importing `{st.package}`")
+                continue
             vars = dir(submod) if st.star else [st.var]
             for var in vars:
                 assert isinstance(var, str), var

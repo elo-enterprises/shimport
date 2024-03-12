@@ -1,33 +1,29 @@
-<!--- This is a markdown file.  Comments look like this --->
 <table>
   <tr>
-    <td colspan=2><strong>
-    shimport
-      </strong>&nbsp;&nbsp;&nbsp;&nbsp;
+    <td colspan=2>
+      <strong>shimport</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href=https://pypi.org/project/shimport><img src="https://img.shields.io/pypi/l/shimport.svg"></a>
+      <a href=https://pypi.org/project/shimport><img src="https://badge.fury.io/py/shimport.svg"></a>
+      <a href="https://github.com/elo-enterprises/shimport/actions/workflows/python-publish.yml"><img src="https://github.com/elo-enterprises/shimport/actions/workflows/python-publish.yml/badge.svg"></a><a href="https://github.com/elo-enterprises/shimport/actions/workflows/python-test.yml"><img src="https://github.com/elo-enterprises/shimport/actions/workflows/python-test.yml/badge.svg"></a>
     </td>
   </tr>
   <tr>
-    <td width=15%><img src=img/icon.png style="width:150px"></td>
+    <td width=15%><img src=https://raw.githubusercontent.com/elo-enterprises/shimport/master/img/icon.png style="width:150px"></td>
     <td>
     Import utilities for python
-    <br/><br/>
-    <a href=https://pypi.python.org/pypi/shimport/><img src="https://img.shields.io/pypi/l/shimport.svg"></a>
-    <a href=https://pypi.python.org/pypi/shimport/><img src="https://badge.fury.io/py/shimport.svg"></a>
-    <a href="https://github.com/elo-enterprises/shimport/actions/workflows/python-publish.yml"><img src="https://github.com/elo-enterprises/shimport/actions/workflows/python-publish.yml/badge.svg"></a><a href="https://github.com/elo-enterprises/shimport/actions/workflows/python-test.yml"><img src="https://github.com/elo-enterprises/shimport/actions/workflows/python-test.yml/badge.svg"></a>
     </td>
   </tr>
 </table>
 
-  * [Overview](#overview)
-  * [Installation](#installation)
-  * [Usage](#usage)
-    * [Simple lazy modules](#simple-lazy-modules)
-    * [Filtering module contents](#filtering-module-contents)
-      * [Filtering for Public Functions](#filtering-for-public-functions)
-      * [Filtering using Chaining / Fluid Style](#filtering-using-chaining--fluid-style)
-      * [Filtering for Classes](#filtering-for-classes)
-      * [Filtering for Data](#filtering-for-data)
-    * [Automatically importing submodules](#automatically-importing-submodules)
+---------------------------------------------------------------------------------
+
+<div class="toc">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#usage">Usage</a></li>
+</ul>
+</div>
 
 
 ---------------------------------------------------------------------------------
@@ -42,7 +38,7 @@ Import utilities for python
 
 See [pypi](https://pypi.org/project/shimport/) for available releases.
 
-```
+```bash
 pip install shimport
 ```
 
@@ -52,13 +48,15 @@ pip install shimport
 
 ### Simple lazy modules
 
-```python
+```pycon
 >>> import shimport 
 >>> pathlib = shimport.lazy('pathlib')
 >>> print(pathlib.Path('.').absolute)
 <bound method Path.absolute of PosixPath('.')>
 >>>
 ```
+
+---------------------------------------------------------------------------------
 
 ### Filtering module contents
 
@@ -68,7 +66,7 @@ Suppose you want to retrieve just the function-definitions from a module namespa
 
 Using `shimport.wrapper` let's you slice and dice:
 
-```python
+```pycon
 >>> import shimport
 >>> wrapper = shimport.wrapper("os.path")
 >>> wrapper = wrapper.prune(only_functions=True)
@@ -83,7 +81,7 @@ Some use-cases for `shimport` involve scenarios that aren't great with declarati
 
 So, there's good support for [chaining (aka fluent)](https://en.wikipedia.org/wiki/Fluent_interface) programming style as you can see below.  (Note that indention here follows fluent-style that shed/black should support)
 
-```python
+```pycon
 >>> import shimport 
 >>> (
 ...   shimport
@@ -96,7 +94,7 @@ dict_keys(['sep'])
 >>>
 ```
 
-```python
+```pycon
 >>> import typing, shimport
 >>> (
 ...   shimport
@@ -111,10 +109,9 @@ dict_keys(['sep'])
 
 #### Filtering for Classes
 
-
 Grab only the classes from the given namespace:
 
-```python
+```pycon
 >>> import shimport 
 >>> namespace=shimport.wrapper('pathlib').filter(only_classes=True)
 >>> assert 'Path' in namespace
@@ -128,16 +125,11 @@ Grab only the classes from the given namespace:
 
 Grab only the classes from the given namespace:
 
-```python
+```pycon
 >>> import shimport 
 >>> namespace = shimport.wrapper('os.path').filter(only_data=True)
 >>> assert 'sep' in namespace
 >>>
-```
-
-### Automatically importing submodules
-
-```python
 ```
 
 ---------------------------------------------------------------------------------
