@@ -9,6 +9,7 @@ Some features include:
     * namespaces and namespace-filtering
     * fluent style
 """
+
 from importlib import import_module  # noqa
 
 from . import module

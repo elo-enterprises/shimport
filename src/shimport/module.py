@@ -1,5 +1,6 @@
 """ shimport.module
 """
+
 from shimport.util import typing
 
 from . import models
@@ -8,7 +9,6 @@ MODULE_REGISTRY = dict()
 
 
 class ModuleBuilder(models.ModulesWrapper):
-    # @typing.validate_arguments
     def __init__(
         self,
         name: str = "",
@@ -54,16 +54,11 @@ def module_builder(
     **kwargs,
 ) -> None:
     """
-
     :param name: str:
     :param return_objects: Default value = False)
     :param assign_objects: bool:  (Default value = True)
     :param sort_objects: typing.Dict:  (Default value = {})
-    :param name: str:
-    :param assign_objects: bool:  (Default value = True)
-    :param sort_objects: typing.Dict:  (Default value = {})
     :param **kwargs:
-
     """
     if name not in MODULE_REGISTRY:
         MODULE_REGISTRY[name] = ModuleBuilder(name=name, **kwargs)
@@ -84,11 +79,6 @@ def wrap(name, **kwargs):
     :param name:
     :param **kwargs:
     """
-    """ """
-    """ """
-    """ """
-    """ """
-    # from types import ModuleType
     if isinstance(name, (typing.ModuleType)):
         mod = name
         name = mod.__name__
@@ -104,10 +94,7 @@ def lazy(
     module_name: str,
 ) -> models.LazyModule:
     """
-
     :param module_name: str:
-    :param module_name: str:
-
     """
     assert module_name
     return models.LazyModule(module_name)

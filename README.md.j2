@@ -15,6 +15,8 @@
   </tr>
 </table>
 
+---------------------------------------------------------------------------------
+
 {{markdown_toc(__template__, level=2)}}
 
 ---------------------------------------------------------------------------------
@@ -46,6 +48,8 @@ pip install shimport
 <bound method Path.absolute of PosixPath('.')>
 >>>
 ```
+
+---------------------------------------------------------------------------------
 
 ### Filtering module contents
 
@@ -98,7 +102,6 @@ dict_keys(['sep'])
 
 #### Filtering for Classes
 
-
 Grab only the classes from the given namespace:
 
 ```pycon
@@ -120,11 +123,6 @@ Grab only the classes from the given namespace:
 >>> namespace = shimport.wrapper('os.path').filter(only_data=True)
 >>> assert 'sep' in namespace
 >>>
-```
-
-### Automatically importing submodules
-
-```pycon
 ```
 
 ---------------------------------------------------------------------------------
